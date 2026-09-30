@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /favorites
+
+# 배포 후 관리자 → 사이트 설정에서 sitemap.xml을 생성해 루트에 넣고 아래 주소를 실제 도메인으로 바꾸세요.
+Sitemap: https://YOUR-DOMAIN/sitemap.xml

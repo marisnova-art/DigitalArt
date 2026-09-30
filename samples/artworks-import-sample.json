@@ -1,0 +1,63 @@
+[
+  {
+    "slug": "terminal-signal-01",
+    "title": "터미널 시그널 01",
+    "title_en": "Terminal Signal 01",
+    "summary": "스캔라인 위를 흐르는 신호",
+    "summary_en": "A signal drifting over scanlines",
+    "description": "실시간 WebGL2 엔진으로 렌더링한 작품입니다.",
+    "description_en": "Rendered with a real-time WebGL2 engine.",
+    "media_type": "image",
+    "thumbnail_url": "",
+    "thumbnail_file": "terminal-signal-01.jpg",
+    "preview_url": "",
+    "width": null,
+    "height": null,
+    "category_slug": "webgl-engine",
+    "brand_slug": "terminal",
+    "tags": [
+      "webgl",
+      "neon",
+      "loop"
+    ],
+    "created_on": "2026-09-01",
+    "is_published": true,
+    "is_featured": false,
+    "sort_order": 10,
+    "gumroad_url": "",
+    "redbubble_url": "",
+    "price_note": "",
+    "seo_title": "",
+    "seo_description": ""
+  },
+  {
+    "slug": "graceful-wave-dawn",
+    "title": "그레이스풀 웨이브 — 여명",
+    "title_en": "Graceful Wave — Dawn",
+    "summary": "여명의 색면",
+    "summary_en": "Color fields at dawn",
+    "description": "",
+    "description_en": "",
+    "media_type": "video",
+    "thumbnail_url": "https://example.com/thumbs/graceful-wave-dawn.webp",
+    "thumbnail_file": "",
+    "preview_url": "https://example.com/previews/graceful-wave-dawn.mp4",
+    "width": 1080,
+    "height": 1350,
+    "category_slug": "generative",
+    "brand_slug": "graceful-wave",
+    "tags": [
+      "loop",
+      "네온"
+    ],
+    "created_on": "2026-08-20",
+    "is_published": false,
+    "is_featured": false,
+    "sort_order": 0,
+    "gumroad_url": "https://example.gumroad.com/l/graceful-wave",
+    "redbubble_url": "",
+    "price_note": "$19 · commercial license",
+    "seo_title": "",
+    "seo_description": ""
+  }
+]
