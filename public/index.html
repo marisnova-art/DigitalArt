@@ -16,6 +16,16 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#09090b">
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MarisNova">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="application-name" content="MarisNova">
+<meta name="format-detection" content="telephone=no">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23fff'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' text-anchor='middle' fill='%2309090b'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -372,6 +382,32 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13px}
 .ftr a:hover{color:#d4d4d8}
 .ftr .soc{width:32px;height:32px;border:0}
 @media (max-width:767px){.ftr-row{padding:0 16px}}
+/* =====================================================================
+   PWA — 설치 버튼 · 업데이트 배너 · 오프라인 표시 · 독립 실행 모드
+   ===================================================================== */
+.install-btn{width:auto;padding:0 12px;gap:6px;border-color:var(--line-2);font:600 12px var(--display);letter-spacing:.02em;color:var(--text)}
+.install-btn:hover{border-color:var(--primary);color:#fff}
+@media (max-width:767px){.install-btn{width:38px;padding:0}.install-btn .lbl{display:none}}
+.pwa-bar{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:410;width:min(520px,calc(100vw - 32px));display:flex;align-items:center;gap:12px;background:var(--panel-2);border:1px solid var(--line-2);border-radius:18px;padding:12px 12px 12px 16px;box-shadow:0 20px 50px rgba(0,0,0,.6);font-size:13px;animation:pwain .25s var(--ease)}
+@keyframes pwain{from{opacity:0;transform:translate(-50%,8px)}}
+.pwa-bar::before{content:"";position:absolute;inset:0 16px auto;height:2px;border-radius:2px;background:var(--grad)}
+.pwa-bar .txt{flex:1;min-width:0;line-height:1.45}.pwa-bar .txt b{display:block;font-weight:600;color:#fff}
+.pwa-bar .txt span{color:var(--text-2)}
+.pwa-bar .acts{display:flex;gap:6px;flex-shrink:0}
+body.has-pwa-bar .toasts{bottom:calc(100px + env(safe-area-inset-bottom))}
+.net-pill{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:calc(16px + env(safe-area-inset-bottom));z-index:405;display:none;align-items:center;gap:8px;background:#2a0f12;border:1px solid #991b1b;color:#fecaca;border-radius:999px;padding:7px 14px 7px 10px;font-size:12px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+body.is-offline .net-pill{display:inline-flex}
+body.has-pwa-bar .net-pill{bottom:calc(100px + env(safe-area-inset-bottom))}
+.ios-steps{margin:0;padding:0;list-style:none;display:grid;gap:12px;counter-reset:s}
+.ios-steps li{display:flex;gap:12px;align-items:flex-start;counter-increment:s;font-size:14px}
+.ios-steps li::before{content:counter(s);flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line-2);display:grid;place-items:center;font:600 12px var(--display)}
+.ios-steps svg{vertical-align:-3px}
+@media (display-mode:standalone){
+  .hdr{padding-top:env(safe-area-inset-top)}
+  .ftr{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+  .hdr,.ftr,.btn,.icon-btn{-webkit-user-select:none;user-select:none}
+  body{-webkit-tap-highlight-color:transparent}
+}
 </style>
 </head>
 <body>
@@ -484,7 +520,7 @@ const IC = {
   coffee: '<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/>',
   bag: '<path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/>',
   shirt: '<path d="m8 4-5 3 2 4 3-1v10h8V10l3 1 2-4-5-3c-.5 1.5-2 2.5-4 2.5S8.5 5.5 8 4z"/>',
-  plus: '<path d="M12 5v14M5 12h14"/>', edit: '<path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>', install: '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>', refresh: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>', wifioff: '<path d="M2 8.8a15 15 0 0 1 4.2-2.7M10.7 5.1A15 15 0 0 1 22 8.8M5 12.9a10 10 0 0 1 5.2-2.8M19 12.9a10 10 0 0 0-2-1.5M8.5 16.4a5 5 0 0 1 7 0M12 20h.01M3 3l18 18"/>', edit: '<path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/>',
   trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', restore: '<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>',
   eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   eyeoff: '<path d="M3 3l18 18M10.6 5.1C11 5 11.5 5 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.5 7 10 7c1.9 0 3.5-.6 4.9-1.4M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
@@ -1015,6 +1051,7 @@ function renderHeader() {
       <button type="submit">${L('검색', 'Search')}</button></form>
     <div class="hdr-right">
       <button class="icon-btn lang-btn" id="langb" type="button" aria-label="${state.lang === 'ko' ? 'Switch to English' : '한국어로 전환'}">${state.lang === 'ko' ? 'EN' : 'KO'}</button>
+      ${pwa.canPrompt && !pwa.installed ? `<button class="icon-btn install-btn" type="button" data-act="install" title="${L('앱으로 설치', 'Install app')}" aria-label="${L('MarisNova 앱 설치', 'Install MarisNova app')}">${ic('install', 16)}<span class="lbl">${L('앱 설치', 'Install')}</span></button>` : ''}
       ${userArea()}
       <button class="icon-btn menu-toggle" id="mtog" type="button" aria-expanded="false" aria-controls="mnav" aria-label="${L('메뉴', 'Menu')}">${ic('menu', 20)}</button>
     </div></div>
@@ -1036,7 +1073,8 @@ function renderFooter() {
     <nav class="ftr-links" aria-label="${L('푸터', 'Footer')}">
       <a href="${hrefOf('/about')}" data-link>${L('소개', 'About')}</a><a href="${hrefOf('/brands')}" data-link>${L('브랜드', 'Brands')}</a>
       <a href="${hrefOf('/community')}" data-link>${L('커뮤니티', 'Community')}</a><a href="${hrefOf('/admin')}" data-link>${L('관리자', 'Admin')}</a>
-      ${CONFIG.ALLOW_RUNTIME_CONFIG ? `<button type="button" class="linklike" data-act="conn">${L('연결 설정', 'Connection')}</button>` : ''}</nav>
+      ${CONFIG.ALLOW_RUNTIME_CONFIG ? `<button type="button" class="linklike" data-act="conn">${L('연결 설정', 'Connection')}</button>` : ''}
+      ${pwa.supported && !pwa.installed ? `<button type="button" class="linklike" data-act="install">${L('앱 설치', 'Install app')}</button>` : ''}</nav>
     <div class="socials">${socialIcons(s.social)}</div></div>`;
 }
 function renderDemoBar() {
@@ -1049,7 +1087,7 @@ function renderDemoBar() {
 function setLang(l) {
   state.lang = l; store.set('mn.lang', l); document.documentElement.lang = l;
   $('#skip').textContent = L('본문으로 건너뛰기', 'Skip to content');
-  renderDemoBar(); renderFooter(); state.keepScroll = true; render();
+  renderDemoBar(); renderFooter(); pwaRenderUI(); state.keepScroll = true; render();
 }
 
 /* =====================================================================
@@ -2375,6 +2413,9 @@ document.addEventListener('click', e => {
     case 'auth': openAuth('login'); break;
     case 'logout': logout(); break;
     case 'conn': openConn(); break;
+    case 'install': pwaInstall(); break;
+    case 'sw-update': pwaApplyUpdate(); break;
+    case 'sw-later': pwaHideBar(); break;
     case 'retry': state.keepScroll = true; render(); break;
     case 'to-grid': $('#gallery-h')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' }); $('#gallery-h')?.focus({ preventScroll: true }); break;
     default: break;
@@ -2392,6 +2433,120 @@ document.addEventListener('keydown', e => {
   }, { passive: true });
 })();
 
+/* =====================================================================
+   16. PWA — 서비스 워커 등록 · 설치 프롬프트 · 업데이트 · 오프라인
+   · https(또는 localhost)에서만 동작합니다. file:// 로 열면 자동으로 꺼집니다.
+   · 서비스 워커 범위는 사이트 루트(/)입니다 — index.html 은 도메인 루트에 배포하세요.
+   ===================================================================== */
+const pwa = {
+  supported: 'serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost', '127.0.0.1'].includes(location.hostname)),
+  installed: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true,
+  canPrompt: false, deferred: null, reg: null, waiting: null, reloading: false,
+  isIOS: /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+};
+// 매니페스트 start_url 의 ?source=pwa 꼬리표는 주소창에서 정리 (라우트 쿼리 오염 방지)
+(() => {
+  const sp = new URLSearchParams(location.search);
+  if (sp.get('source') === 'pwa') { sp.delete('source'); const qs = sp.toString(); history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); }
+})();
+
+function pwaRenderUI() {
+  // 네트워크 상태 표시
+  let pill = $('#net-pill');
+  if (!pill) { pill = Object.assign(document.createElement('div'), { id: 'net-pill', className: 'net-pill' }); pill.setAttribute('role', 'status'); document.body.append(pill); }
+  pill.innerHTML = `${ic('wifioff', 14)}<span>${L('오프라인 — 저장된 화면 표시 중', 'Offline — showing saved content')}</span>`;
+  document.body.classList.toggle('is-offline', !navigator.onLine);
+  // 업데이트 배너
+  if (pwa.waiting) pwaShowBar();
+}
+function pwaShowBar() {
+  let bar = $('#pwa-bar');
+  if (!bar) { bar = Object.assign(document.createElement('div'), { id: 'pwa-bar', className: 'pwa-bar' }); bar.setAttribute('role', 'status'); bar.setAttribute('aria-live', 'polite'); document.body.append(bar); }
+  bar.innerHTML = `<div class="txt"><b>${L('새 버전이 준비되었습니다', 'A new version is ready')}</b><span>${L('새로고침하면 최신 기능이 적용됩니다.', 'Reload to get the latest features.')}</span></div>
+    <div class="acts"><button class="btn btn-sm btn-ghost" type="button" data-act="sw-later">${L('나중에', 'Later')}</button><button class="btn btn-sm btn-white" type="button" data-act="sw-update">${ic('refresh', 14)} ${L('새로고침', 'Reload')}</button></div>`;
+  document.body.classList.add('has-pwa-bar');
+}
+function pwaHideBar() { $('#pwa-bar')?.remove(); document.body.classList.remove('has-pwa-bar'); }
+function pwaApplyUpdate() {
+  const w = pwa.waiting || pwa.reg?.waiting;
+  if (!w) { location.reload(); return; }
+  // 작성 중인 관리자 폼이 있으면 확인
+  if (dlg.open && dlg.querySelector('form') && !confirm(L('편집 중인 내용이 사라질 수 있습니다. 새로고침할까요?', 'Unsaved edits may be lost. Reload now?'))) return;
+  w.postMessage({ type: 'SKIP_WAITING' });
+  $('#pwa-bar [data-act="sw-update"]')?.setAttribute('disabled', '');
+}
+
+async function pwaInstall() {
+  if (pwa.installed) { toast(L('이미 앱으로 실행 중입니다.', 'Already running as an app.'), 'ok'); return; }
+  if (pwa.deferred) {
+    const ev = pwa.deferred; pwa.deferred = null; pwa.canPrompt = false;
+    try {
+      await ev.prompt();
+      const { outcome } = await ev.userChoice;
+      if (outcome === 'dismissed') toast(L('언제든 푸터의 "앱 설치"에서 다시 설치할 수 있습니다.', 'You can install anytime from "Install app" in the footer.'));
+    } catch (e) { console.warn(e); }
+    renderHeader();
+    return;
+  }
+  if (!pwa.supported) { toast(L('앱 설치는 https 로 배포된 사이트에서만 가능합니다.', 'Installing requires the site to be served over https.'), 'err'); return; }
+  // 프롬프트를 지원하지 않는 브라우저(iOS Safari, Firefox 등) 안내
+  const share = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4M6 11H5v10h14V11h-1"/></svg>`;
+  const steps = pwa.isIOS
+    ? [L(`Safari 하단(iPad는 상단)의 공유 버튼 ${share} 을 누르세요.`, `Tap the Share button ${share} in Safari's toolbar.`),
+       L('메뉴에서 <b>홈 화면에 추가</b>를 선택하세요.', 'Choose <b>Add to Home Screen</b>.'),
+       L('오른쪽 위 <b>추가</b>를 누르면 홈 화면에 MarisNova 아이콘이 생깁니다.', 'Tap <b>Add</b> — the MarisNova icon appears on your Home Screen.')]
+    : [L('브라우저 주소창 오른쪽의 설치 아이콘 또는 메뉴(⋮ / ⋯)를 여세요.', 'Open the install icon in the address bar, or the browser menu (⋮ / ⋯).'),
+       L('<b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 선택하세요.', 'Choose <b>Install app</b> or <b>Add to Home screen</b>.'),
+       L('설치 후 바탕화면·홈 화면에서 독립 앱처럼 실행됩니다.', 'MarisNova then opens like a standalone app.')];
+  openDialog(`${dlgHead(L('MarisNova 앱 설치', 'Install MarisNova'))}<div class="dlg-b">
+    <p class="muted" style="margin-top:0">${L('설치하면 전체 화면으로 빠르게 열리고, 이전에 본 작품 이미지는 오프라인에서도 보입니다.', 'Installed, it opens full-screen and fast, and artworks you have viewed stay available offline.')}</p>
+    <ol class="ios-steps">${steps.map(t => `<li><span>${t}</span></li>`).join('')}</ol></div>
+    <div class="dlg-f"><button class="btn btn-white" type="button" data-close>${L('확인', 'Got it')}</button></div>`, { label: L('앱 설치 안내', 'Install instructions') });
+}
+
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); pwa.deferred = e; pwa.canPrompt = true;
+  if (state.rendered) renderHeader();
+});
+addEventListener('appinstalled', () => {
+  pwa.installed = true; pwa.deferred = null; pwa.canPrompt = false;
+  if (state.rendered) { renderHeader(); renderFooter(); }
+  toast(L('MarisNova 앱이 설치되었습니다.', 'MarisNova app installed.'), 'ok');
+});
+matchMedia('(display-mode: standalone)').addEventListener?.('change', e => { pwa.installed = e.matches; if (state.rendered) { renderHeader(); renderFooter(); } });
+addEventListener('online', () => { document.body.classList.remove('is-offline'); toast(L('다시 온라인입니다.', 'Back online.'), 'ok', 2500); if (api?.mode === 'live' && $('#view [data-act="retry"]')) { state.keepScroll = true; render(); } });
+addEventListener('offline', () => { document.body.classList.add('is-offline'); });
+
+async function pwaRegister() {
+  if (!pwa.supported) return;
+  try {
+    const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
+    pwa.reg = reg;
+    const track = w => {
+      if (!w) return;
+      w.addEventListener('statechange', () => {
+        // 기존 컨트롤러가 있을 때만 "업데이트" (첫 설치는 조용히)
+        if (w.state === 'installed' && navigator.serviceWorker.controller) { pwa.waiting = w; pwaShowBar(); }
+      });
+    };
+    if (reg.waiting && navigator.serviceWorker.controller) { pwa.waiting = reg.waiting; pwaShowBar(); }
+    track(reg.installing);
+    reg.addEventListener('updatefound', () => track(reg.installing));
+    // 장시간 열어 두는 전시/키오스크 환경 대비: 1시간마다, 그리고 탭 복귀 시 업데이트 확인
+    setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
+  } catch (e) { console.warn('[PWA] service worker registration failed', e); }
+}
+if (pwa.supported) {
+  let hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController) { hadController = true; return; } // 첫 설치 시 claim 으로 인한 변경은 무시
+    if (pwa.reloading) return; pwa.reloading = true; location.reload();
+  });
+  if (document.readyState === 'complete') pwaRegister(); else addEventListener('load', pwaRegister, { once: true });
+}
+
+
 async function boot() {
   state.lang = detectLang(); document.documentElement.lang = state.lang;
   $('#skip').textContent = L('본문으로 건너뛰기', 'Skip to content');
@@ -2404,7 +2559,7 @@ async function boot() {
   } else if (conn) state.connError = L('Supabase 라이브러리를 불러오지 못했습니다.', 'Could not load the Supabase library.');
   const sp = new URLSearchParams(location.search);
   const authErr = sp.get('error_description') || new URLSearchParams(location.hash.slice(1)).get('error_description');
-  renderDemoBar(); renderFooter();
+  renderDemoBar(); renderFooter(); pwaRenderUI();
   try {
     const [site, cats] = await Promise.all([api.getSite(), api.listCategories()]);
     state.site = site || {}; state.cats = cats || [];

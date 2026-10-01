@@ -1,0 +1,28 @@
+{
+  "id": "/",
+  "name": "MarisNova — Digital Art Portal",
+  "short_name": "MarisNova",
+  "description": "Explore, support and collect original digital art by MarisNova.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "categories": ["entertainment", "lifestyle", "photo"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Discover", "short_name": "Discover", "description": "Browse all artworks", "url": "/discover?source=pwa", "icons": [{ "src": "/icons/shortcut-96.png", "sizes": "96x96", "type": "image/png" }] },
+    { "name": "Brands", "short_name": "Brands", "description": "Artwork brand pages", "url": "/brands?source=pwa", "icons": [{ "src": "/icons/shortcut-96.png", "sizes": "96x96", "type": "image/png" }] },
+    { "name": "Favorites", "short_name": "Favorites", "description": "Your saved artworks", "url": "/favorites?source=pwa", "icons": [{ "src": "/icons/shortcut-96.png", "sizes": "96x96", "type": "image/png" }] }
+  ]
+}
